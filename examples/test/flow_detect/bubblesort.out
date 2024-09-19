@@ -1,0 +1,24 @@
+pack:
+	args:
+		int: size, n1, n2, n3, n4, n5
+
+print_array:
+	args:
+		int ptr: array
+		int: size
+	num potential loops: 1
+
+swap_cond:
+	args:
+		int ptr: array
+		int: j
+
+main:
+	args:
+		int: size, n1, n2, n3, n4, n5
+	num potential loops: 2
+	function calls: 3
+		pack(size, n1, n2, n3, n4, n5)
+		swap_cond(array, j)
+		print_array(array, size)
+

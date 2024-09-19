@@ -1,0 +1,22 @@
+main:
+	args:
+		int: input
+	function calls: 1
+		queen(zero, n, icount, site)
+
+queen:
+	args:
+		int: n, queens, icount
+		int ptr: site
+	num potential loops: 1
+	function calls: 2
+		valid(n, site)
+		queen(n_1, queens, icount, site)
+	recursion present
+
+valid:
+	args:
+		int: n
+		int ptr: site
+	num potential loops: 1
+

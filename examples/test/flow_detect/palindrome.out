@@ -1,0 +1,21 @@
+main:
+	args:
+		int: in
+	num potential loops: 1
+	function calls: 2
+		pow(ten, index)
+		palindrome(in, exp)
+
+pow:
+	args:
+		int: base, exp
+	num potential loops: 1
+
+palindrome:
+	args:
+		int: in, len
+	function calls: 2
+		pow(ten, len)
+		palindrome(next_in, next_len)
+	recursion present
+

@@ -30,7 +30,6 @@ The current benchmarks are:
 * `euclid`: Calculates the greatest common divisor between two large numbers using the [Euclidean Algorithm][euclid] with a helper function for the modulo operator.
 * `euler`: Approximates [Euler's number][euler] using the Taylor series.
 * `fact`: Prints the factorial of *n*, computing it recursively.
-* `fibonacci`: Prints the *nth* Fibonacci number, computing it recursively.
 * `factors`: Print the factors of the *n* using the [trial division][trialdivision] method.
 * `fib`: Calculate the *n*th Fibonacci number by allocating and filling an [array](../lang/memory.md) of numbers up to that point.
 * `fizz-buzz`: The infamous [programming test][fizzbuzz].
@@ -46,6 +45,7 @@ The current benchmarks are:
 * `mat-inv` : Calculates the inverse of a 3x3 matrix and prints it out.
 * `mat-mul`: Multiplies two `nxn` matrices using the [naive][matmul] matrix multiplication algorithm. The matrices are randomly generated using a [linear congruential generator][rng].
 * `max-subarray`: solution to the classic Maximum Subarray problem.
+* `mergesort-inplace`: Sorts an array of 8 elements using In-Place Merge Sort.
 * `mod_inv`: Calculates the [modular inverse][modinv] of `n` under to a prime modulus p.
 * `newton`: Calculate the square root of 99,999 using the [newton method][newton]
 * `norm`: Calculate the [euclidean norm][euclidean] of a vector

@@ -1,0 +1,20 @@
+main:
+	args:
+		float: n
+	function calls: 1
+		taylor_series_euler(v0)
+
+factorial:
+	args:
+		float: n
+	function calls: 1
+		factorial(v7)
+	recursion present
+
+taylor_series_euler:
+	args:
+		float: n
+	num potential loops: 1
+	function calls: 1
+		factorial(v7)
+
