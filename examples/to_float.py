@@ -19,8 +19,6 @@ def ints_to_floats_in_function(func):
     for arg in func['args']:
         if arg['type'] == 'int':
             arg['type'] = 'float'
-    print("Args:")
-    print(func['args'])
     for instr in func['instrs']:
         # Instructions that have a int dest need to be changed to float
         if 'dest' in instr:
@@ -28,7 +26,6 @@ def ints_to_floats_in_function(func):
                 instr['type'] = 'float'
                 if instr['op'] in int_to_float_op_mapping:
                     instr['op'] = int_to_float_op_mapping[instr['op']]
-        print(instr)
 
 
 def ints_to_floats(bril_program):
