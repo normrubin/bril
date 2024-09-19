@@ -1,0 +1,14 @@
+@main {
+.entry:
+  i: float = const 1;
+  jmp .loop;
+.loop:
+  max: float = const 10;
+  cond: bool = flt i max;
+  br cond .body .exit;
+.body:
+  i: float = fadd i i;
+  jmp .loop;
+.exit:
+  print i;
+}

@@ -16,16 +16,17 @@ int_to_float_op_mapping = {
 
 def ints_to_floats_in_function(func):
     # Change the args to float
-    for arg in func['args']:
-        if arg['type'] == 'int':
-            arg['type'] = 'float'
+    if 'args' in func:
+        for arg in func['args']:
+            if arg['type'] == 'int':
+                arg['type'] = 'float'
     for instr in func['instrs']:
         # Instructions that have a int dest need to be changed to float
         if 'dest' in instr:
             if instr['type'] == 'int':
                 instr['type'] = 'float'
-                if instr['op'] in int_to_float_op_mapping:
-                    instr['op'] = int_to_float_op_mapping[instr['op']]
+        if 'op' in instr and instr['op'] in int_to_float_op_mapping:
+            instr['op'] = int_to_float_op_mapping[instr['op']]
 
 
 def ints_to_floats(bril_program):
