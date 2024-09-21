@@ -1,0 +1,43 @@
+# This benchmark estimates the value of pi using by sampling points inside a circle
+# using monte carlo 
+# Instead of using a random number generator, it divides the square into a 
+# grid of equi-distanced points with num_rad_steps, and then queries all 
+# the points in the grid
+
+# ARGS: 500
+@main(num_rad_steps: float) {
+  zero: float = const 0;
+  one: float = const 1;
+  step_size: float = fdiv one num_rad_steps;
+  i: float = fsub zero one;
+  num_samples: float = const 0;
+  num_points_inside: float = const 0;
+.for_loop_x_begin:
+  j: float = fsub zero one;
+  is_done_x: bool = fgt i one;
+  br is_done_x .sample_loop_end .for_loop_y_begin;
+.for_loop_y_begin:
+  is_done_y: bool = fgt j one;
+  br is_done_y .for_loop_x_end .for_loop_y_body;
+.for_loop_y_body:
+  i_squared: float = fmul i i;
+  j_squared: float = fmul j j;
+  i_j_rad_squared: float = fadd i_squared j_squared;
+  is_inside: bool = fle i_j_rad_squared one;
+  br is_inside .sample_point_inside .for_loop_y_end;
+.sample_point_inside:
+  num_points_inside : float = fadd num_points_inside one;
+.for_loop_y_end:
+  j: float = fadd j step_size;
+  num_samples: float = fadd num_samples one;
+  jmp .for_loop_y_begin;
+.for_loop_x_end:
+  i: float = fadd i step_size;
+  jmp .for_loop_x_begin;
+.sample_loop_end:
+  pi: int = fdiv num_points_inside num_samples;
+  four: float = const 4.0;
+  pi: float = fmul four pi;
+  print pi; 
+  ret;
+}

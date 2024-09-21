@@ -1,0 +1,7 @@
+@main(a: float) {
+  cond: bool = const true;
+  br cond .here .there;
+.here:
+  print a;
+.there:
+}
