@@ -1,0 +1,310 @@
+@main{
+    word: int = const 11010011101100;
+    word_size: int = const 14;
+    divisor: int = const 1011;
+    divisor_size: int = const 4;
+    check_value: int = const 0;
+
+
+    zero: int = const 0;
+    one: int = const 1;
+    minus_one: int = const -1;
+
+    append_size: int = add minus_one divisor_size;
+
+    n: int = call @n_zeros append_size;
+    word: int = mul n word;
+    word: int = add word check_value;    
+
+    word_ptr_size: int = add append_size word_size;
+    word_ptr: ptr<int> = alloc word_ptr_size;
+    divisor_ptr: ptr<int> = alloc divisor_size;
+
+    word_ptr: ptr<int> = call @toPtr word_ptr word_ptr_size word;
+    divisor_ptr: ptr<int> = call @toPtr divisor_ptr divisor_size divisor;
+    
+    crc_rem_size: int = id append_size;
+    crc_rem_ptr: ptr<int> = call @crc_rem divisor_ptr divisor_size word_ptr word_ptr_size;
+    
+
+    crc_check: bool = call @crc_check crc_rem_ptr;
+    print crc_check;
+    
+    crc_rem: int = call @toNum crc_rem_ptr crc_rem_size;
+    print crc_rem;
+    
+    free word_ptr;
+    free divisor_ptr;
+}
+
+
+
+@rem(divident: int, divisor: int): int{
+    quotient: int = div divident divisor;
+    product: int = mul quotient divisor;
+    remainder: int = sub divident product;
+    ret remainder;
+}
+
+
+@n_zeros(size: int): int{
+    zero: int = const 0;
+    one: int = const 1;
+    ten: int = const 10;
+    i: int = id zero;
+    n:int = id one;
+
+    .loop:
+        cond: bool = lt i size;
+        br cond .body .done;
+    
+    .body:
+        n: int = mul n ten;
+
+        i: int = add i one;
+        jmp .loop;
+
+    .done:
+        ret n;
+
+
+}
+
+
+
+@toPtr(temp_ptr: ptr<int>, size: int,data: int): ptr<int>{
+    
+    zero: int = const 0;
+    one: int = const 1;
+    ten: int = const 10;
+    i: int = id zero;
+    
+    n: int = call @n_zeros size;
+    n: int = div n ten;
+    
+
+
+    .loop:
+        cond: bool = gt n zero;
+        br cond .body .done;
+    
+    .body:
+        temp_ptr_i: ptr<int> = ptradd temp_ptr i;
+        
+        temp_data: int = div data n;
+        
+        store temp_ptr_i temp_data;
+
+        data: int = call @rem data n;
+
+        n: int = div n ten;
+        i: int = add i one;
+        jmp .loop;
+
+    .done:
+        ret temp_ptr;
+       
+
+}
+
+@wordSplit(word: ptr<int>, word_split: ptr<int>, word_split_size: int): ptr<int>{
+    
+    zero: int = const 0;
+    one: int = const 1;
+    i: int = id zero;
+
+    .loop:
+        cond: bool = lt i word_split_size;
+        br cond .body .done;
+    
+    .body:
+        word_i: ptr<int> = ptradd word i;
+        temp: int = load word_i;
+        
+        word_split_i: ptr<int> = ptradd word_split i;
+        store word_split_i temp;
+        
+        i: int = add i one;
+        jmp .loop;
+
+    .done:
+        ret word_split;
+}
+
+
+@xor(word: ptr<int>, word_split: ptr<int>, div: ptr<int>, div_size: int): ptr<int>{
+    zero: int = const 0;
+    one: int = const 1;
+    i: int = id zero;
+
+    .loop:
+        cond_i: bool = lt i div_size;
+        br cond_i .body .done;
+    
+    .body:
+        word_split_i: ptr<int> = ptradd word_split i;
+        word_split_i_temp: int = load word_split_i;
+        
+        word_i: ptr<int> = ptradd word i;
+        word_i_temp: int = load word_i;
+
+        div_i: ptr<int> = ptradd div i;
+        div_i_temp: int = load div_i;
+
+        cond_xor: bool =  eq word_split_i_temp div_i_temp;
+        br cond_xor .xor_zero .xor_one;
+
+        .xor_zero:
+            store word_i zero;
+            jmp .end;
+        
+        .xor_one:
+            store word_i one;
+            jmp .end;
+        
+        .end:    
+
+
+        i: int = add i one;
+        jmp .loop;
+
+    .done:
+        ret word;
+}
+
+@shiftLeft(word: ptr<int>, word_size:int, steps: int): ptr<int>{
+
+
+      
+    zero: int = const 0;
+    one: int = const 1;
+    minus_one: int = const -1;
+    i: int = id one;
+    i_prev: int = add i minus_one;
+
+    .loop:
+        cond: bool = lt i word_size;
+        br cond .body .done;
+    
+    .body:
+        
+        word_i: ptr<int> = ptradd word i;
+        word_i_temp: int = load word_i;
+        
+        
+        word_prev: ptr<int> = ptradd word i_prev;
+        store word_prev word_i_temp;
+   
+        
+        
+        
+        i: int = add i one;
+        i_prev: int = add i minus_one;
+        jmp .loop;
+
+    .done:
+        ret word;
+
+
+}
+
+@print_ptr(word: ptr<int>, size: int){
+
+    zero: int = const 0;
+    one: int = const 1;
+    i: int = id zero;
+    
+    .loop:
+        cond: bool = lt i size;
+        br cond .body .done;
+    
+    .body:
+        word_i: ptr<int> = ptradd word i;
+        word_i_data: int = load word_i;
+        
+        print word_i_data;
+        
+        i: int = add i one;
+        jmp .loop;
+
+    .done:
+        ret;
+       
+}
+
+@crc_rem(div: ptr<int>, div_size: int, word: ptr<int>, word_size: int): ptr<int>{
+    
+    
+    zero: int = const 0;
+    one: int = const 1;
+
+    word_split_size: int = id div_size;
+    word_split: ptr<int> = alloc word_split_size;
+
+    
+
+    .loop:
+        cond: bool = ge word_size div_size;
+        br cond .body .done;
+    
+    .body:
+            
+        word_split: ptr<int> = call @wordSplit word word_split word_split_size;
+
+        word_split_head: int = load word_split;
+        div_head: int = load div;
+
+        cond_xor: bool = eq word_split_head div_head;
+        br cond_xor .do_xor .end;
+
+        .do_xor:
+            word: ptr<int> = call @xor word word_split div div_size;
+            jmp .end;
+
+        .end:
+
+        word: ptr<int> = call @shiftLeft word word_size one; 
+        word_size: int = sub word_size one;
+        
+        jmp .loop;
+    
+    .done:
+        free word_split;
+        ret word;
+
+}
+
+@crc_check(crc_rem: ptr<int>): bool{
+    zero: int = const 0;
+    crc_rem_head: int = load crc_rem;
+    cond_crc: bool = eq crc_rem_head zero;
+    ret cond_crc;
+}
+
+
+@toNum(ptrs: ptr<int>, size: int): int{
+    
+    zero: int = const 0;
+    one: int = const 1;
+    ten: int = const 10;
+    i: int = id zero;
+    num: int = id zero;
+    
+    .loop:
+        cond: bool = lt i size;
+        br cond .body .done;
+    
+    .body:
+        ptrs_i: ptr<int> = ptradd ptrs i;
+        ptrs_i_data: int = load ptrs_i;
+        
+        temp_shift: int = mul num ten;
+        num: int = add temp_shift ptrs_i_data;
+        
+        i: int = add i one;
+        jmp .loop;
+
+    .done:
+        ret num;
+}
+
