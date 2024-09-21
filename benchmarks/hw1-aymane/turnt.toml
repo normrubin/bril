@@ -1,0 +1,2 @@
+
+command = "ts2bril bench.ts > bench.bril && brili -p < bench.bril"

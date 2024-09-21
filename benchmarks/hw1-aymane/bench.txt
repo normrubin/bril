@@ -1,0 +1,60 @@
+@main {
+  v31: int = const 10;
+  result: int = call @benchmark v31;
+  result: int = id result;
+  v32: int = id result;
+  print v32;
+  v33: int = const 0;
+}
+@benchmark(iterations: int): int {
+  v0: int = const 0;
+  sum: int = id v0;
+  v1: int = const 1;
+  product: int = id v1;
+  v2: int = const 1;
+  flag: int = id v2;
+  v4: int = const 0;
+  i: int = id v4;
+.for.cond.3:
+  v5: int = id i;
+  v6: int = id iterations;
+  v7: bool = lt v5 v6;
+  br v7 .for.body.3 .for.end.3;
+.for.body.3:
+  v8: int = id sum;
+  v9: int = id i;
+  v10: int = add v8 v9;
+  sum: int = id v10;
+  v11: int = id product;
+  v12: int = const 2;
+  v13: int = mul v11 v12;
+  product: int = id v13;
+  v14: int = const 1;
+  v15: int = id flag;
+  v16: int = sub v14 v15;
+  flag: int = id v16;
+  v18: int = id flag;
+  v19: int = const 0;
+  v20: bool = eq v18 v19;
+  br v20 .then.17 .else.17;
+.then.17:
+  v21: int = id sum;
+  v22: int = id product;
+  v23: int = sub v21 v22;
+  sum: int = id v23;
+  jmp .endif.17;
+.else.17:
+  v24: int = id sum;
+  v25: int = id product;
+  v26: int = add v24 v25;
+  sum: int = id v26;
+.endif.17:
+  v27: int = id i;
+  v28: int = const 1;
+  v29: int = add v27 v28;
+  i: int = id v29;
+  jmp .for.cond.3;
+.for.end.3:
+  v30: int = id sum;
+  ret v30;
+}
