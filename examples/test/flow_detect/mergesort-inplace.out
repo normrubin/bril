@@ -1,0 +1,34 @@
+main:
+	args:
+		int: n1, n2, n3, n4, n5, n6, n7, n8
+	function calls: 3
+		pack(size, n1, n2, n3, n4, n5, n6, n7, n8)
+		merge_sort(array, zero, upper_bound)
+		print_array(array, size)
+
+pack:
+	args:
+		int: size, n1, n2, n3, n4, n5, n6, n7, n8
+
+merge:
+	args:
+		int ptr: arr
+		int: start, mid, end
+	num potential loops: 2
+
+merge_sort:
+	args:
+		int ptr: arr
+		int: l, r
+	function calls: 3
+		merge_sort(arr, l, m)
+		merge_sort(arr, mp1, r)
+		merge(arr, l, m, r)
+	recursion present
+
+print_array:
+	args:
+		int ptr: array
+		int: size
+	num potential loops: 1
+

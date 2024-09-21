@@ -1,0 +1,69 @@
+xor:
+	args:
+		bool: x, y
+
+getbit:
+	args:
+		int: x, position
+	num potential loops: 1
+
+rand:
+	args:
+		int ptr: state
+	function calls: 7
+		getbit(s, head0_pos)
+		getbit(s, head1_pos)
+		getbit(s, head2_pos)
+		getbit(s, head3_pos)
+		xor(head0, head1)
+		xor(fb, head2)
+		xor(fb, head3)
+
+mod:
+	args:
+		int: x, m
+
+gen_uniform_csr:
+	args:
+		int: rows, cols, degree
+		int ptr: csr_rowptr, csr_colidx, csr_values
+	num potential loops: 3
+	function calls: 3
+		mod(v, cols)
+		rand(rng)
+		mod(v, ten)
+
+gen_vec:
+	args:
+		int: len
+		int ptr: data
+	num potential loops: 1
+	function calls: 2
+		rand(rng)
+		mod(v, ten)
+
+csr_spmv:
+	args:
+		int: rows, cols
+		int ptr: csr_rowptr, csr_colidx, csr_values, vec, res
+	num potential loops: 3
+
+print_arr:
+	args:
+		int ptr: arr
+		int: size
+	num potential loops: 1
+
+main:
+	args:
+		int: rows, cols, degree
+	function calls: 8
+		gen_uniform_csr(rows, cols, degree, csr_rowptr, csr_colidx, csr_values)
+		print_arr(csr_rowptr, rptr_len)
+		print_arr(csr_colidx, nnz)
+		print_arr(csr_values, nnz)
+		gen_vec(cols, vec)
+		print_arr(vec, cols)
+		csr_spmv(rows, cols, csr_rowptr, csr_colidx, csr_values, vec, res)
+		print_arr(res, rows)
+

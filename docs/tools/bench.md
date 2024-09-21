@@ -46,7 +46,6 @@ The current benchmarks are:
 * `mat-inv` : Calculates the inverse of a 3x3 matrix and prints it out.
 * `mat-mul`: Multiplies two `nxn` matrices using the [naive][matmul] matrix multiplication algorithm. The matrices are randomly generated using a [linear congruential generator][rng].
 * `max-subarray`: solution to the classic Maximum Subarray problem.
-* `mcpi`: Uses Monte Carlo to calculate the value of pi.
 * `mod_inv`: Calculates the [modular inverse][modinv] of `n` under to a prime modulus p.
 * `newton`: Calculate the square root of 99,999 using the [newton method][newton]
 * `norm`: Calculate the [euclidean norm][euclidean] of a vector
